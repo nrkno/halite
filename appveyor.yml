@@ -16,5 +16,7 @@
   build_script:
     build.cmd version=%APPVEYOR_BUILD_VERSION%
   test: off
+  image: 
+    Visual Studio 2017
   deploy_script:
     build.cmd "PushPackage" -st nugetKey=%nugetKey% version=%APPVEYOR_BUILD_VERSION%
