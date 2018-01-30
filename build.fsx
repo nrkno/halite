@@ -10,8 +10,8 @@ open Fake.PaketTemplate
 let buildDir = "./build/"
 let testProjects = "./source/*Tests/*.csproj"
 let testOutputDir = "./tests/"
-let packageConfigs = !! "./source/**/packages.config"
 let projectReferences = !! "./source/Halite/Halite.csproj"
+let analyzerProjectReferences = !! "./source/analyzer/Halite.Analyzer/Halite.Analyzer.csproj"
 let testProjectReferences = !! "./source/Halite.Tests/Halite.Tests.csproj"
 let projectName = "Halite"
 let description = "Library for representing HAL objects and links."
@@ -40,6 +40,8 @@ Target "AddAssemblyVersion" (fun _ ->
 
 Target "Build" (fun _ -> MSBuild buildDir "Build" buildReleaseProperties projectReferences |> Log "Building project: ")
 
+Target "BuildAnalyzer" (fun _ -> MSBuild buildDir "Build" buildReleaseProperties analyzerProjectReferences |> Log "Building analyzer project: ")
+
 Target "BuildTests" (fun _ ->  MSBuild testOutputDir "Build" [ "Configuration", "Debug" ] testProjectReferences |> Log "TestBuild-Output: ")
 
 Target "RunTests" (fun _ ->
@@ -62,7 +64,8 @@ Target "CreatePaketTemplate" (fun _ ->
           Authors = ["NRK"]
           Files = [ Include (buildDir + "/Halite.dll", "lib/net45")
                     Include (buildDir + "/Halite.pdb", "lib/net45")
-                    Include (buildDir + "/Halite.xml", "lib/net45") ]
+                    Include (buildDir + "/Halite.xml", "lib/net45")
+                    Include (buildDir + "/Halite.Analyzer.dll", "analyzers/dotnet/cs") ]
           Dependencies = 
             [ "Newtonsoft.Json", GreaterOrEqual (Version "6.0.8") 
               "JetBrains.Annotations", GreaterOrEqual (Version "11.1.0") ]
@@ -95,6 +98,7 @@ Target "PushPackage" (fun _ ->
 "Clean"
 ==> "AddAssemblyVersion"
 ==> "Build"
+==> "BuildAnalyzer"
 ==> "BuildTests"
 ==> "RunTests"
 ==> "CreatePaketTemplate"

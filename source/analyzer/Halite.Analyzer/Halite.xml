@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Halite.Analyzer</name>
+    </assembly>
+    <members>
+        <member name="M:Halite.HalLinksSubclassAnalyzer.AnalyzePropertyDeclarationSyntaxNode(Microsoft.CodeAnalysis.Diagnostics.SyntaxNodeAnalysisContext)">
+            <summary>
+            Types of properties in a HalLinks subclass must be (subtypes of) HalLink.
+            </summary>
+            <param name="context"></param>
+        </member>
+        <member name="M:Halite.HalLinksSubclassAnalyzer.AnalyzeParameterSyntaxNode(Microsoft.CodeAnalysis.Diagnostics.SyntaxNodeAnalysisContext)">
+            <summary>
+            All parameters should match name/type of some property.
+            </summary>
+            <param name="context"></param>
+        </member>
+        <member name="M:Halite.HalLinksSubclassAnalyzer.AnalyzeConstructorDeclarationSyntaxNode(Microsoft.CodeAnalysis.Diagnostics.SyntaxNodeAnalysisContext)">
+            <summary>
+            There must be a constructor parameter for each property.
+            </summary>
+            <param name="context"></param>
+        </member>
+        <member name="M:Halite.HalLinkSubclassAnalyzer.AnalyzePropertyDeclarationSyntaxNode(Microsoft.CodeAnalysis.Diagnostics.SyntaxNodeAnalysisContext)">
+            <summary>
+            Types of properties in a HalLinks subclass must be (subtypes of) HalLink.
+            </summary>
+            <param name="context"></param>
+        </member>
+    </members>
+</doc>
