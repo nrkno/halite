@@ -1,0 +1,130 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Halite</name>
+    </assembly>
+    <members>
+        <member name="T:Halite.HalEmbedded">
+            <summary>
+            Superclass for embedded object for use in a HalResource.
+            It is abstract because you will always want to subclass this to add some actual properties.
+            Subclasses should obey the HAL specification:
+             - Property names are link relation types
+             - Values are either a resource object or an array of resource objects.
+            This means property types must be either a HalResource subclass or
+            (something that implements) IEnumerable of a HalResource subclass 
+            </summary>
+        </member>
+        <member name="T:Halite.HalLink">
+            <summary>
+            Represents a HAL link whose Href value is a URI [RFC3986]
+            </summary>
+        </member>
+        <member name="P:Halite.HalLink.Templated">
+            <summary>
+            This is not a templated link (you would use HalTemplatedLink for that). 
+            Why do we return null instead of false? According to the HAL specification, 
+            the value of the templated property SHOULD be considered false if it is undefined. 
+            By choosing undefined over false, we avoid including the templated property 
+            for non-templated links during serialization.
+            </summary>
+        </member>
+        <member name="T:Halite.HalLinkObject">
+            <summary>
+            Represents a HAL Link Object as described in the HAL specification.
+            </summary>
+            <remarks>
+            Clients should never subclass this class, use HalLink or HalTemplatedLink instead.
+            </remarks>
+        </member>
+        <member name="P:Halite.HalLinkObject.Href">
+            <summary>
+            5.1. The "href" property is REQUIRED.
+            
+            Its value is either a URI [RFC3986] or a URI Template [RFC6570].
+            
+            If the value is a URI Template then the Link Object SHOULD have a
+            "templated" attribute whose value is true.       
+            </summary>
+        </member>
+        <member name="P:Halite.HalLinkObject.Templated">
+            <summary>
+            5.2. The "templated" property is OPTIONAL.
+            
+            Its value is boolean and SHOULD be true when the Link Object's "href"
+            property is a URI Template.
+            
+            Its value SHOULD be considered false if it is undefined. 
+            </summary>
+        </member>
+        <member name="P:Halite.HalLinkObject.Type">
+            <summary>
+            5.3. The "type" property is OPTIONAL.
+            
+            Its value is a string used as a hint to indicate the media type
+            expected when dereferencing the target resource.
+            </summary>
+        </member>
+        <member name="P:Halite.HalLinkObject.Deprecation">
+            <summary>
+            5.4. The "deprecation" property is OPTIONAL.
+            
+            Its value is a string used as a hint to indicate the media type
+            expected when dereferencing the target resource.
+            </summary>
+        </member>
+        <member name="P:Halite.HalLinkObject.Name">
+            <summary>
+            5.5. The "name" property is OPTIONAL.
+            
+            Its value MAY be used as a secondary key for selecting Link Objects
+            which share the same relation type.
+            </summary>
+        </member>
+        <member name="P:Halite.HalLinkObject.Profile">
+            <summary>
+            5.6. The "profile" property is OPTIONAL.
+            
+            Its value is a string which is URI that hints about the profile of the target resource.
+            </summary>
+        </member>
+        <member name="P:Halite.HalLinkObject.Title">
+            <summary>
+            5.7. The "title" property is OPTIONAL.
+            
+            Its value is a string and is intended for labelling the link with a human-readable identifier 
+            (as defined by [RFC5988]).
+            </summary>
+        </member>
+        <member name="P:Halite.HalLinkObject.HrefLang">
+            <summary>
+            5.8. The "hreflang" property is OPTIONAL.
+            
+            Its value is a string and is intended for indicating the language of the target resource 
+            (as defined by [RFC5988]).
+            </summary>
+        </member>
+        <member name="T:Halite.HalLinks">
+            <summary>
+            Basic collection of HAL links belonging to a resource.
+            You might want to subclass this for a specific resource 
+            and add link properties as appropriate.
+            </summary>
+        </member>
+        <member name="P:Halite.HalLinks.Self">
+            <summary>
+            Mandatory 'self' link for all resources.
+            </summary>
+        </member>
+        <member name="T:Halite.HalTemplatedLink">
+            <summary>
+            Represents a HAL link whose Href value is a URI Template [RFC6570].
+            </summary>
+        </member>
+        <member name="P:Halite.HalTemplatedLink.Templated">
+            <summary>
+            Templated link is templated.
+            </summary>
+        </member>
+    </members>
+</doc>
