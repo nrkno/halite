@@ -241,7 +241,7 @@ namespace Halite.Analyzer.Test
 
         protected override CodeFixProvider GetCSharpCodeFixProvider() => new HalLinksChangePropertySetterToPrivateCodeFixProvider();
 
-        protected override DiagnosticAnalyzer GetCSharpDiagnosticAnalyzer() => new HalLinksPropertySetterAnalyzer();
+        protected override DiagnosticAnalyzer GetCSharpDiagnosticAnalyzer() => new HalLinksSubclassPropertySetterAnalyzer();
 
         protected override MetadataReference[] GetReferences()
         {

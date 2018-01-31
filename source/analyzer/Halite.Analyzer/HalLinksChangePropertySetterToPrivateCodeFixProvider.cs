@@ -16,7 +16,7 @@ namespace Halite
     {
         private const string Title = "Mark setter as private";
 
-        public sealed override ImmutableArray<string> FixableDiagnosticIds => ImmutableArray.Create(HalLinksPropertySetterAnalyzer.DiagnosticIdProperty);
+        public sealed override ImmutableArray<string> FixableDiagnosticIds => ImmutableArray.Create(HalLinksSubclassPropertySetterAnalyzer.DiagnosticIdProperty);
 
         public sealed override FixAllProvider GetFixAllProvider()
         {
