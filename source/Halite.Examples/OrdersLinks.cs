@@ -29,6 +29,5 @@ namespace Halite.Examples
         [JsonProperty("ea:admin", Order = 0)]
         [NotNull]
         public IReadOnlyList<HalLink> AdminLinks { get; }
-
     }
 }

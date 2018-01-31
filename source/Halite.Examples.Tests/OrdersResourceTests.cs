@@ -25,6 +25,19 @@ namespace Halite.Examples.Tests
         [Fact]
         public void VerifyOrdersResource()
         {
+            var resource = CreateOrdersResource();
+
+            var serializerSettings = new JsonSerializerSettings
+            {
+                ContractResolver = new CamelCasePropertyNamesContractResolver()
+            };
+
+            var json = JsonConvert.SerializeObject(resource, Formatting.Indented, serializerSettings);
+            json.ShouldBe(ReadJsonFile("OrdersResource.json"));
+        }
+
+        private static OrdersResource CreateOrdersResource()
+        {
             var curiesLinks = new List<HalTemplatedLink>
             {
                 new HalTemplatedLink("http://example.com/docs/rels/{rel}")
@@ -46,20 +59,27 @@ namespace Halite.Examples.Tests
                 }
             };
 
+            var orderLines = new List<OrderLineResource>
+            {
+                new OrderLineResource(30.00m, "USD", "shipped")
+                {
+                    Links = new OrderLineLinks(new SelfLink("/orders/123"), new HalLink("/baskets/98712"), new HalLink("/customers/7809"))
+                },
+                new OrderLineResource(20.00m, "USD", "processing")
+                {
+                    Links = new OrderLineLinks(new SelfLink("/orders/124"), new HalLink("/baskets/97213"), new HalLink("/customers/12369"))
+                }
+            };
+
             var resource = new OrdersResource
             {
                 Links = new OrdersLinks(curiesLinks, nextLink, findLink, adminLinks),
                 CurrentlyProcessing = 14,
-                ShippedToday = 20
+                ShippedToday = 20,
+                Embedded = new OrdersEmbedded(orderLines)
             };
 
-            var serializerSettings = new JsonSerializerSettings
-            {
-                ContractResolver = new CamelCasePropertyNamesContractResolver()
-            };
-
-            var json = JsonConvert.SerializeObject(resource, Formatting.Indented, serializerSettings);
-            json.ShouldBe(ReadJsonFile("OrdersResource1.json"));
+            return resource;
         }
     }
 }

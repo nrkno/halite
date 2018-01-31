@@ -48,9 +48,6 @@
     <None Include="TestFiles\OrdersResource.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="TestFiles\OrdersResource1.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Halite.Examples\Halite.Examples.csproj">
