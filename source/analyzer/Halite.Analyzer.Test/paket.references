@@ -6,3 +6,6 @@ Microsoft.CodeAnalysis.Workspaces.Common
 Microsoft.Composition  
 System.Collections.Immutable
 System.Reflection.Metadata
+xunit
+xunit.runner.visualstudio
+Shouldly

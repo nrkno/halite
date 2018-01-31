@@ -1,19 +1,18 @@
 ﻿using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CodeFixes;
 using Microsoft.CodeAnalysis.Diagnostics;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.IO;
 using System.Reflection;
 using TestHelper;
-
+using Xunit;
 
 namespace Halite.Analyzer.Test
 {
-    [TestClass]
+    
     public class PropertySetterTests : CodeFixVerifier
     {
-        [TestMethod]
+        [Fact]
         public void Property_DiagnosticsNotAppliedOnNormalClass()
         {
             var test = @"
@@ -35,7 +34,7 @@ namespace Halite.Analyzer.Test
             VerifyCSharpDiagnostic(test, new DiagnosticResult[0]);
         }
 
-        [TestMethod]
+        [Fact]
         public void Property_PublicSetterNotAllowed()
         {
             var test = @"
@@ -68,7 +67,7 @@ namespace Halite.Analyzer.Test
             VerifyCSharpDiagnostic(test, expected);
         }
 
-        [TestMethod]
+        [Fact]
         public void Property_PrivateSetterAllowed()
         {
             var test = @"
@@ -100,7 +99,7 @@ namespace Halite.Analyzer.Test
             VerifyCSharpDiagnostic(test, new DiagnosticResult[0]);
         }
 
-        [TestMethod]
+        [Fact]
         public void Property_InternalSetterNotAllowed()
         {
             var test = @"
@@ -132,7 +131,7 @@ namespace Halite.Analyzer.Test
             VerifyCSharpDiagnostic(test, expected);
         }
 
-        [TestMethod]
+        [Fact]
         public void Property_ProtectedSetterNotAllowed()
         {
             var test = @"
@@ -164,7 +163,7 @@ namespace Halite.Analyzer.Test
             VerifyCSharpDiagnostic(test, expected);
         }
 
-        [TestMethod]
+        [Fact]
         public void Property_PrivateSetterFix_Applied()
         {
             var test = @"
@@ -201,7 +200,7 @@ namespace Halite.Analyzer.Test
             VerifyCSharpFix(test, fixedTest);
         }
 
-        [TestMethod]
+        [Fact]
         public void Property_InternalSetterFix_Applied()
         {
             var test = @"
