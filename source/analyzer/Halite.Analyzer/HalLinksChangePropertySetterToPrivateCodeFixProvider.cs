@@ -9,14 +9,14 @@ using Microsoft.CodeAnalysis.CodeFixes;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 
-namespace Nrk.PsApi.Hal.Analyzer.HalLinks
+namespace Halite
 {
     [ExportCodeFixProvider(LanguageNames.CSharp, Name = nameof(HalLinksChangePropertySetterToPrivateCodeFixProvider)), Shared]
     public class HalLinksChangePropertySetterToPrivateCodeFixProvider : CodeFixProvider
     {
         private const string Title = "Mark setter as private";
 
-        public sealed override ImmutableArray<string> FixableDiagnosticIds => ImmutableArray.Create(PropertiesMustHavePrivateSetterAnalyzer.DiagnosticIdProperty);
+        public sealed override ImmutableArray<string> FixableDiagnosticIds => ImmutableArray.Create(HalLinksPropertySetterAnalyzer.DiagnosticIdProperty);
 
         public sealed override FixAllProvider GetFixAllProvider()
         {
