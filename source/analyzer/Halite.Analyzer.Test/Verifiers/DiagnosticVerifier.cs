@@ -29,6 +29,15 @@ namespace TestHelper
         {
             return null;
         }
+
+        /// <summary>
+        /// Get references which will be added when compiling the test code
+        /// </summary>
+        /// <returns></returns>
+        protected virtual MetadataReference[] GetReferences()
+        {
+            return new MetadataReference[0];
+        }
         #endregion
 
         #region Verifier wrappers
@@ -87,7 +96,7 @@ namespace TestHelper
         /// <param name="expected">DiagnosticResults that should appear after the analyzer is run on the sources</param>
         private void VerifyDiagnostics(string[] sources, string language, DiagnosticAnalyzer analyzer, params DiagnosticResult[] expected)
         {
-            var diagnostics = GetSortedDiagnostics(sources, language, analyzer);
+            var diagnostics = GetSortedDiagnostics(sources, language, analyzer, GetReferences());
             VerifyDiagnosticResults(diagnostics, analyzer, expected);
         }
 
