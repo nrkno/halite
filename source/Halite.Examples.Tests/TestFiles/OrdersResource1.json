@@ -1,0 +1,33 @@
+﻿{
+  "_links": {
+    "self": {
+      "href": "/orders"
+    },
+    "curies": [
+      {
+        "name": "ea",
+        "href": "http://example.com/docs/rels/{rel}",
+        "templated": true
+      }
+    ],
+    "next": {
+      "href": "/orders?page=2"
+    },
+    "ea:find": {
+      "href": "/orders{?id}",
+      "templated": true
+    },
+    "ea:admin": [
+      {
+        "href": "/admins/2",
+        "title": "Fred"
+      },
+      {
+        "href": "/admins/5",
+        "title": "Kate"
+      }
+    ]
+  },
+  "currentlyProcessing": 14,
+  "shippedToday": 20
+}
