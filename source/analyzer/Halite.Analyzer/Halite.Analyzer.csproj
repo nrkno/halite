@@ -35,8 +35,8 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="HalLinksChangePropertySetterToPrivateCodeFixProvider.cs" />
-    <Compile Include="HalLinksPropertySetterAnalyzer.cs" />
     <Compile Include="HalLinksSubclassAnalyzer.cs" />
+    <Compile Include="HalLinksSubclassPropertySetterAnalyzer.cs" />
     <Compile Include="HalLinkSubclassAnalyzer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="PropertyHalLinkCodeFixProvider.cs" />
