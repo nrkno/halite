@@ -22,6 +22,12 @@
             </summary>
             <param name="context"></param>
         </member>
+        <member name="M:Halite.HalLinksSubclassPropertySetterAnalyzer.AnalyzePropertyDeclarationNoSetter(Microsoft.CodeAnalysis.Diagnostics.SyntaxNodeAnalysisContext)">
+            <summary>
+            Property does not expose externally accessible setter
+            </summary>
+            <param name="context"></param>
+        </member>
         <member name="M:Halite.HalLinkSubclassAnalyzer.AnalyzePropertyDeclarationSyntaxNode(Microsoft.CodeAnalysis.Diagnostics.SyntaxNodeAnalysisContext)">
             <summary>
             Types of properties in a HalLinks subclass must be (subtypes of) HalLink.
