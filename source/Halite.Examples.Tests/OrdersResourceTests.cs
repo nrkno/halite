@@ -39,7 +39,7 @@ namespace Halite.Examples.Tests
             };
 
             using (var sw = new StringWriter())
-            using (JsonWriter writer = new JsonTextWriter(sw) { Indentation = 2 })
+            using (JsonWriter writer = new JsonTextWriter(sw) { Indentation = 2, IndentChar = ' ' })
             {
                 serializer.Serialize(writer, o);
                 return sw.ToString();
