@@ -5,6 +5,7 @@ nuget JetBrains.Annotations 11.1.0 restriction: >= net45
 nuget Shouldly 2.8.3 restriction: >= net45
 nuget xunit 2.1.0 restriction: >= net45 
 nuget xunit.runner.console 2.1.0 restriction: >= net45
+nuget xunit.runner.visualstudio 2.1.0 version_in_path: true
 nuget FAKE
 
 nuget Microsoft.CodeAnalysis.Analyzers 1.1.0 restriction: >= portable45-net45+win8
