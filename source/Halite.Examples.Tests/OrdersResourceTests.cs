@@ -26,14 +26,24 @@ namespace Halite.Examples.Tests
         public void VerifyOrdersResource()
         {
             var resource = CreateOrdersResource();
+            var json = Serialize(resource);
+            json.ShouldBe(ReadJsonFile("OrdersResource.json"));
+        }
 
-            var serializerSettings = new JsonSerializerSettings
+        private static string Serialize(object o)
+        {
+            var serializer = new JsonSerializer
             {
-                ContractResolver = new CamelCasePropertyNamesContractResolver()
+                ContractResolver = new CamelCasePropertyNamesContractResolver(),
+                Formatting = Formatting.Indented
             };
 
-            var json = JsonConvert.SerializeObject(resource, Formatting.Indented, serializerSettings);
-            json.ShouldBe(ReadJsonFile("OrdersResource.json"));
+            using (var sw = new StringWriter())
+            using (JsonWriter writer = new JsonTextWriter(sw) { Indentation = 2 })
+            {
+                serializer.Serialize(writer, o);
+                return sw.ToString();
+            }
         }
 
         private static OrdersResource CreateOrdersResource()
