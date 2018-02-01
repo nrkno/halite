@@ -19,7 +19,7 @@ namespace Halite.Examples.Tests
             var dirPath = Path.GetDirectoryName(codeBasePath);
             var testDirPath = Path.Combine(dirPath, "TestFiles");
             var jsonFilePath = Path.Combine(testDirPath, fileName);
-            return File.ReadAllText(jsonFilePath).Replace("\r\n", "\n");
+            return string.Join("\n", File.ReadAllLines(jsonFilePath));
         } 
 
         [Fact]
