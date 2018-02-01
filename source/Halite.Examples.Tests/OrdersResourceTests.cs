@@ -19,7 +19,7 @@ namespace Halite.Examples.Tests
             var dirPath = Path.GetDirectoryName(codeBasePath);
             var testDirPath = Path.Combine(dirPath, "TestFiles");
             var jsonFilePath = Path.Combine(testDirPath, fileName);
-            return File.ReadAllText(jsonFilePath).Replace("\r\n", Environment.NewLine);
+            return File.ReadAllText(jsonFilePath).Replace("\r\n", "\n");
         } 
 
         [Fact]
@@ -38,7 +38,7 @@ namespace Halite.Examples.Tests
                 Formatting = Formatting.Indented,
             };
 
-            using (var sw = new StringWriter())
+            using (var sw = new StringWriter { NewLine = "\n" })
             using (JsonWriter writer = new JsonTextWriter(sw)
             {
                 Indentation = 2,
