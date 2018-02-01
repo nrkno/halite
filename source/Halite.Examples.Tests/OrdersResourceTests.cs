@@ -35,11 +35,14 @@ namespace Halite.Examples.Tests
             var serializer = new JsonSerializer
             {
                 ContractResolver = new CamelCasePropertyNamesContractResolver(),
-                Formatting = Formatting.Indented
+                Formatting = Formatting.Indented,
             };
 
-            using (var sw = new StringWriter())
-            using (JsonWriter writer = new JsonTextWriter(sw) { Indentation = 2, IndentChar = ' ' })
+            using (var sw = new StringWriter { NewLine = "\r\n" })
+            using (JsonWriter writer = new JsonTextWriter(sw)
+            {
+                Indentation = 2,
+            })
             {
                 serializer.Serialize(writer, o);
                 return sw.ToString();
