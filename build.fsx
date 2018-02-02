@@ -11,8 +11,10 @@ let buildDir = "./build/"
 let testProjects = "./source/*Tests/*.csproj"
 let testOutputDir = "./tests/"
 let projectReferences = !! "./source/Halite/Halite.csproj"
+                        ++ "./source/Halite.Examples/Halite.Examples.csproj" 
 let analyzerProjectReferences = !! "./source/analyzer/Halite.Analyzer/Halite.Analyzer.csproj"
 let testProjectReferences = !! "./source/Halite.Tests/Halite.Tests.csproj"
+                            ++ "./source/Halite.Examples.Tests/Halite.Examples.Tests.csproj"
                             ++ "./source/analyzer/Halite.Analyzer.Test/Halite.Analyzer.Tests.csproj"
 let projectName = "Halite"
 let description = "Library for representing HAL objects and links."
@@ -50,8 +52,6 @@ Target "RunTests" (fun _ ->
   |> xUnit2 (fun p ->
                  { p with HtmlOutputPath = Some (testOutputDir @@ "xunit.html") })
 )
-
-let coverFilters = "+:*;-:*Test*"
 
 Target "CreatePaketTemplate" (fun _ ->
   PaketTemplate (fun p ->

@@ -31,7 +31,7 @@ namespace Halite
         /// If the value is a URI Template then the Link Object SHOULD have a
         /// "templated" attribute whose value is true.       
         /// </summary>
-        [JsonProperty("href")]
+        [JsonProperty("href", Order = 1)]
         [NotNull]
         public Uri Href { get; }
 
@@ -43,7 +43,7 @@ namespace Halite
         /// 
         /// Its value SHOULD be considered false if it is undefined. 
         /// </summary>
-        [JsonProperty("templated", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonProperty("templated", DefaultValueHandling = DefaultValueHandling.Ignore, Order = 2)]
         [CanBeNull]
         public abstract bool? Templated { get; }
 
@@ -53,7 +53,7 @@ namespace Halite
         /// Its value is a string used as a hint to indicate the media type
         /// expected when dereferencing the target resource.
         /// </summary>
-        [JsonProperty("type", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonProperty("type", DefaultValueHandling = DefaultValueHandling.Ignore, Order = 3)]
         [CanBeNull]
         public string Type { get; set; }
 
@@ -63,7 +63,7 @@ namespace Halite
         /// Its value is a string used as a hint to indicate the media type
         /// expected when dereferencing the target resource.
         /// </summary>
-        [JsonProperty("deprecation", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonProperty("deprecation", DefaultValueHandling = DefaultValueHandling.Ignore, Order = 4)]
         [CanBeNull]
         public bool? Deprecation { get; set; }
 
@@ -73,7 +73,7 @@ namespace Halite
         /// Its value MAY be used as a secondary key for selecting Link Objects
         /// which share the same relation type.
         /// </summary>
-        [JsonProperty("name", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonProperty("name", DefaultValueHandling = DefaultValueHandling.Ignore, Order = 0)]
         [CanBeNull]
         public string Name { get; set; }
 
@@ -82,7 +82,7 @@ namespace Halite
         /// 
         /// Its value is a string which is URI that hints about the profile of the target resource.
         /// </summary>
-        [JsonProperty("profile", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonProperty("profile", DefaultValueHandling = DefaultValueHandling.Ignore, Order = 5)]
         [CanBeNull]
         public Uri Profile { get; set; }
 
@@ -92,7 +92,7 @@ namespace Halite
         /// Its value is a string and is intended for labelling the link with a human-readable identifier 
         /// (as defined by [RFC5988]).
         /// </summary>
-        [JsonProperty("title", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonProperty("title", DefaultValueHandling = DefaultValueHandling.Ignore, Order = 6)]
         [CanBeNull]
         public string Title { get; set; }
 
@@ -102,7 +102,7 @@ namespace Halite
         /// Its value is a string and is intended for indicating the language of the target resource 
         /// (as defined by [RFC5988]).
         /// </summary>
-        [JsonProperty("hreflang", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonProperty("hreflang", DefaultValueHandling = DefaultValueHandling.Ignore, Order = 7)]
         [CanBeNull]
         public string HrefLang { get; set; }
     }

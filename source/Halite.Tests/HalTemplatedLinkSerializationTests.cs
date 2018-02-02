@@ -12,7 +12,7 @@ namespace Halite.Tests
         {
             var link = new HalTemplatedLink("/user/{userId}");
             var json = JsonConvert.SerializeObject(link);
-            json.ShouldBe("{\"templated\":true,\"href\":\"/user/{userId}\"}");
+            json.ShouldBe("{\"href\":\"/user/{userId}\",\"templated\":true}");
         }
 
         [Fact]
@@ -20,7 +20,7 @@ namespace Halite.Tests
         {
             var link = new HalTemplatedLink(new Uri("/user/{userId}", UriKind.Relative));
             var json = JsonConvert.SerializeObject(link);
-            json.ShouldBe("{\"templated\":true,\"href\":\"/user/{userId}\"}");
+            json.ShouldBe("{\"href\":\"/user/{userId}\",\"templated\":true}");
         }
 
         [Fact]
@@ -28,7 +28,7 @@ namespace Halite.Tests
         {
             var link = new HalTemplatedLink("/user/{userId}") { Name = "last" };
             var json = JsonConvert.SerializeObject(link);
-            json.ShouldBe("{\"templated\":true,\"href\":\"/user/{userId}\",\"name\":\"last\"}");
+            json.ShouldBe("{\"name\":\"last\",\"href\":\"/user/{userId}\",\"templated\":true}");
         }
 
         [Fact]
@@ -36,7 +36,7 @@ namespace Halite.Tests
         {
             var link = new HalTemplatedLink("/user/{userId}") { Type = "application/hal+json" };
             var json = JsonConvert.SerializeObject(link);
-            json.ShouldBe("{\"templated\":true,\"href\":\"/user/{userId}\",\"type\":\"application/hal+json\"}");
+            json.ShouldBe("{\"href\":\"/user/{userId}\",\"templated\":true,\"type\":\"application/hal+json\"}");
         }
     }
 }
