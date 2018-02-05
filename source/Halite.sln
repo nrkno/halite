@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26730.8
+VisualStudioVersion = 15.0.27004.2010
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Halite", "Halite\Halite.csproj", "{670C2953-95C3-493C-A39C-987105130378}"
 EndProject
@@ -21,6 +21,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Halite.Examples", "Halite.Examples\Halite.Examples.csproj", "{7024AE7A-7C53-43FD-9480-E24BF7B7E884}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Halite.Examples.Tests", "Halite.Examples.Tests\Halite.Examples.Tests.csproj", "{056DBB00-0588-472B-BD52-2A470AE40B69}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Halite.Serialization.JsonNet", "Halite.Serialization.JsonNet\Halite.Serialization.JsonNet.csproj", "{4631E21F-0ABA-42E4-A478-379B0656C969}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -56,6 +58,10 @@ Global
 		{056DBB00-0588-472B-BD52-2A470AE40B69}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{056DBB00-0588-472B-BD52-2A470AE40B69}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{056DBB00-0588-472B-BD52-2A470AE40B69}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4631E21F-0ABA-42E4-A478-379B0656C969}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4631E21F-0ABA-42E4-A478-379B0656C969}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4631E21F-0ABA-42E4-A478-379B0656C969}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4631E21F-0ABA-42E4-A478-379B0656C969}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

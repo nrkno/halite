@@ -1,6 +1,5 @@
 using System;
 using JetBrains.Annotations;
-using Newtonsoft.Json;
 
 namespace Halite
 {
@@ -10,7 +9,6 @@ namespace Halite
     [Serializable]
     public class HalTemplatedLink : HalLinkObject
     {
-        [JsonConstructor]
         public HalTemplatedLink([CanBeNull] string href) : base(href)
         {
         }

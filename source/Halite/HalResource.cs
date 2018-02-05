@@ -1,5 +1,4 @@
 ﻿using System;
-using Newtonsoft.Json;
 
 namespace Halite
 {
@@ -7,7 +6,7 @@ namespace Halite
     public class HalResource<TLinks>
         where TLinks : HalLinks
     {
-        [JsonProperty("_links", Order = -10)]
+        [HalProperty("_links")]
         public TLinks Links { get; set; }
     }
 
@@ -16,7 +15,7 @@ namespace Halite
         where TLinks : HalLinks
         where TEmbedded : HalEmbedded
     {
-        [JsonProperty("_embedded", Order = 100, DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [HalProperty("_embedded")]
         public TEmbedded Embedded { get; set; }
     }
 }

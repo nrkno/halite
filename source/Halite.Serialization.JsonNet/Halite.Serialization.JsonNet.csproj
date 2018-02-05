@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{670C2953-95C3-493C-A39C-987105130378}</ProjectGuid>
+    <ProjectGuid>{4631E21F-0ABA-42E4-A478-379B0656C969}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Halite</RootNamespace>
-    <AssemblyName>Halite</AssemblyName>
+    <RootNamespace>Halite.Serialization.JsonNet</RootNamespace>
+    <AssemblyName>Halite.Serialization.JsonNet</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -40,15 +40,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="HalEmbedded.cs" />
-    <Compile Include="HalLink.cs" />
-    <Compile Include="HalLinkObject.cs" />
-    <Compile Include="HalLinks.cs" />
-    <Compile Include="HalPropertyAttribute.cs" />
-    <Compile Include="HalResource.cs" />
-    <Compile Include="HalTemplatedLink.cs" />
+    <Compile Include="HalLinkJsonConverter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SelfLink.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Halite\Halite.csproj">
+      <Project>{670c2953-95c3-493c-a39c-987105130378}</Project>
+      <Name>Halite</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="paket.references" />
@@ -59,6 +58,17 @@
       <ItemGroup>
         <Reference Include="JetBrains.Annotations">
           <HintPath>..\..\packages\JetBrains.Annotations\lib\net20\JetBrains.Annotations.dll</HintPath>
+          <Private>True</Private>
+          <Paket>True</Paket>
+        </Reference>
+      </ItemGroup>
+    </When>
+  </Choose>
+  <Choose>
+    <When Condition="$(TargetFrameworkIdentifier) == '.NETFramework' And ($(TargetFrameworkVersion) == 'v4.5' Or $(TargetFrameworkVersion) == 'v4.5.1' Or $(TargetFrameworkVersion) == 'v4.5.2' Or $(TargetFrameworkVersion) == 'v4.5.3' Or $(TargetFrameworkVersion) == 'v4.6' Or $(TargetFrameworkVersion) == 'v4.6.1' Or $(TargetFrameworkVersion) == 'v4.6.2' Or $(TargetFrameworkVersion) == 'v4.6.3' Or $(TargetFrameworkVersion) == 'v4.7' Or $(TargetFrameworkVersion) == 'v4.7.1')">
+      <ItemGroup>
+        <Reference Include="Newtonsoft.Json">
+          <HintPath>..\..\packages\Newtonsoft.Json\lib\net45\Newtonsoft.Json.dll</HintPath>
           <Private>True</Private>
           <Paket>True</Paket>
         </Reference>
