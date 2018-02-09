@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using Newtonsoft.Json;
 
 namespace Halite.Examples
 {
@@ -10,7 +9,7 @@ namespace Halite.Examples
             OrderLines = orderLines;
         }
 
-        [JsonProperty("ea:order")]
+        [HalRelation("ea:order")]
         public IReadOnlyList<OrderLineResource> OrderLines { get; }
     }
 }

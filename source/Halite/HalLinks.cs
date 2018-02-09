@@ -1,6 +1,5 @@
 ﻿using System;
 using JetBrains.Annotations;
-using Newtonsoft.Json;
 
 namespace Halite
 {
@@ -19,7 +18,7 @@ namespace Halite
         /// <summary>
         /// Mandatory 'self' link for all resources.
         /// </summary>
-        [JsonProperty("self")]
+        [HalRelation("self")]
         [NotNull]
         public SelfLink Self { get; }
     }

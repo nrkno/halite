@@ -43,6 +43,7 @@
     <Compile Include="EmbeddedTurtle.cs" />
     <Compile Include="HalLinkDeserializationTests.cs" />
     <Compile Include="HalLinksDeserializationTests.cs" />
+    <Compile Include="HalLinkSerializationTests.cs" />
     <Compile Include="HalResourceDeserializationTests.cs" />
     <Compile Include="HalResourceSerializationTests.cs" />
     <Compile Include="HalTemplatedLinkSerializationTests.cs" />
@@ -53,6 +54,10 @@
     <Compile Include="TurtleResource.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Halite.Serialization.JsonNet\Halite.Serialization.JsonNet.csproj">
+      <Project>{4631E21F-0ABA-42E4-A478-379B0656C969}</Project>
+      <Name>Halite.Serialization.JsonNet</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Halite\Halite.csproj">
       <Project>{670c2953-95c3-493c-a39c-987105130378}</Project>
       <Name>Halite</Name>
@@ -60,6 +65,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="paket.references" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Choose>

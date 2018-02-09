@@ -14,19 +14,19 @@ namespace Halite.Examples
             AdminLinks = adminLinks;
         }
 
-        [JsonProperty("curies", Order = 0)]
+        [HalRelation("curies")]
         [NotNull]
         public IReadOnlyList<HalTemplatedLink> CuriesLinks { get; }
 
-        [JsonProperty("next", Order = 0)]
+        [HalRelation("next")]
         [NotNull]
         public HalLink NextLink { get; }
 
-        [JsonProperty("ea:find", Order = 0)]
+        [HalRelation("ea:find")]
         [NotNull]
         public HalTemplatedLink FindLink { get; }
 
-        [JsonProperty("ea:admin", Order = 0)]
+        [HalRelation("ea:admin")]
         [NotNull]
         public IReadOnlyList<HalLink> AdminLinks { get; }
     }

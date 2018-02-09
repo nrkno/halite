@@ -1,0 +1,36 @@
+﻿{
+  "ea:order": [
+    {
+      "_links": {
+        "self": {
+          "href": "/orders/123"
+        },
+        "ea:basket": {
+          "href": "/baskets/98712"
+        },
+        "ea:customer": {
+          "href": "/customers/7809"
+        }
+      },
+      "total": 30.00,
+      "currency": "USD",
+      "status": "shipped"
+    },
+    {
+      "_links": {
+        "self": {
+          "href": "/orders/124"
+        },
+        "ea:basket": {
+          "href": "/baskets/97213"
+        },
+        "ea:customer": {
+          "href": "/customers/12369"
+        }
+      },
+      "total": 20.00,
+      "currency": "USD",
+      "status": "processing"
+    }
+  ]
+}

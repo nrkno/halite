@@ -11,11 +11,11 @@ namespace Halite.Examples
             CustomerLink = customerLink;
         }
 
-        [JsonProperty("ea:basket", Order = 0)]
+        [HalRelation("ea:basket")]
         [NotNull]
         public HalLink BasketLink { get; }
 
-        [JsonProperty("ea:customer", Order = 0)]
+        [HalRelation("ea:customer")]
         [NotNull]
         public HalLink CustomerLink { get; }
     }

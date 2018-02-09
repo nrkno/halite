@@ -1,4 +1,5 @@
 using System;
+using Halite.Serialization.JsonNet;
 using Newtonsoft.Json;
 using Shouldly;
 using Xunit;
@@ -11,7 +12,7 @@ namespace Halite.Tests
         public void VerifyBasicDeserializationToHalLink()
         {
             const string json = "{\"href\":\"/things/1\"}";
-            HalLink link = JsonConvert.DeserializeObject<HalLink>(json);
+            HalLink link = Deserialize<HalLink>(json);
             link.Href.ToString().ShouldBe("/things/1");
             link.Templated.ShouldBeNull();
         }
@@ -20,7 +21,7 @@ namespace Halite.Tests
         public void VerifyBasicDeserializationToHalTemplatedLink()
         {
             const string json = "{\"href\":\"/things/1\"}";
-            HalTemplatedLink link = JsonConvert.DeserializeObject<HalTemplatedLink>(json);
+            HalTemplatedLink link = Deserialize<HalTemplatedLink>(json);
             link.Href.ToString().ShouldBe("/things/1");
             link.Templated.ShouldBe(true);
         }
@@ -29,7 +30,7 @@ namespace Halite.Tests
         public void VerifyBasicDeserializationToSelfLink()
         {
             const string json = "{\"href\":\"/things/1\"}";
-            var link = JsonConvert.DeserializeObject<SelfLink>(json);
+            var link = Deserialize<SelfLink>(json);
             link.Href.ToString().ShouldBe("/things/1");
         }
 
@@ -37,7 +38,7 @@ namespace Halite.Tests
         public void VerifyDeserializationOfConstantLink()
         {
             const string json = "{\"href\":\"/a/different/link\"}";
-            var link = JsonConvert.DeserializeObject<ConstantLink>(json);
+            var link = Deserialize<ConstantLink>(json);
             link.Href.ToString().ShouldNotBe("/a/different/link");
             link.Href.ToString().ShouldBe("/always/the/same");
         }
@@ -46,7 +47,7 @@ namespace Halite.Tests
         public void VerifyNamedLinkDeserialization()
         {
             const string json = "{\"href\":\"/things/1\",\"name\":\"first\"}";
-            HalLink link = JsonConvert.DeserializeObject<HalLink>(json);
+            HalLink link = Deserialize<HalLink>(json);
             link.Href.ToString().ShouldBe("/things/1");
             link.Name.ShouldBe("first");
         }
@@ -55,7 +56,7 @@ namespace Halite.Tests
         public void VerifyTypedLinkDeserialization()
         {
             const string json = "{\"href\":\"/things/1\",\"type\":\"application/hal+json\"}";
-            HalLink link = JsonConvert.DeserializeObject<HalLink>(json);
+            HalLink link = Deserialize<HalLink>(json);
             link.Href.ToString().ShouldBe("/things/1");
             link.Type.ShouldBe("application/hal+json");
         }
@@ -64,7 +65,7 @@ namespace Halite.Tests
         public void VerifyTypedSelfLinkDeserialization()
         {
             const string json = "{\"href\":\"/things/1\",\"type\":\"application/hal+json\"}";
-            SelfLink link = JsonConvert.DeserializeObject<SelfLink>(json);
+            SelfLink link = Deserialize<SelfLink>(json);
             link.Href.ToString().ShouldBe("/things/1");
             link.Type.ShouldBe("application/hal+json");
         }
@@ -74,7 +75,7 @@ namespace Halite.Tests
         {
             var json =
                 "{\"href\":\"/things/1\",\"type\":\"application/hal+json\",\"deprecation\":true,\"name\":\"quux\",\"profile\":\"http://some/profile\",\"title\":\"Link to something\",\"hreflang\":\"en\"}";
-            HalLink link = JsonConvert.DeserializeObject<HalLink>(json);
+            HalLink link = Deserialize<HalLink>(json);
             link.Href.ToString().ShouldBe("/things/1");
             link.Type.ShouldBe("application/hal+json");
             link.Deprecation.ShouldBe(true);
@@ -88,38 +89,49 @@ namespace Halite.Tests
         public void VerifyCantDeserializeEmptyJsonObject()
         {
             const string json = "{}";
-            Assert.Throws<ArgumentNullException>(() => JsonConvert.DeserializeObject<HalLink>(json));
+            Assert.Throws<JsonSerializationException>(() => Deserialize<HalLink>(json));
         }
+
+        [Fact]
+        public void VerifyCantDeserializeEmptyJsonObject1()
+        {
+            const string json = "{}";
+            Assert.Throws<JsonSerializationException>(() => JsonConvert.DeserializeObject<HalLink>(json));
+        }
+
 
         [Fact]
         public void VerifyCantDeserializeWithoutHref()
         {
             const string json = "{\"name\":\"quux\"}";
-            Assert.Throws<ArgumentNullException>(() => JsonConvert.DeserializeObject<HalLink>(json));
+            Assert.Throws<JsonSerializationException>(() => Deserialize<HalLink>(json));
         }
 
         [Fact]
         public void VerifyUnknownPropertiesAreIgnored()
         {
             const string json = "{\"href\":\"/things/1\",\"baa\":\"moo\"}";
-            var link = JsonConvert.DeserializeObject<HalLink>(json);
+            var link = Deserialize<HalLink>(json);
             link.Href.ToString().ShouldBe("/things/1");
         }
 
         [Fact]
-        public void VerifyHrefCanBeNumberButItsWeird()
+        public void VerifyHrefCannotBeNumber()
         {
             const string json = "{\"href\":0}";
-            var link = JsonConvert.DeserializeObject<HalLink>(json);
-            link.Href.ToString().ShouldBe("0");
+            Assert.Throws<JsonSerializationException>(() => Deserialize<HalLink>(json));
         }
 
         [Fact]
-        public void VerifyHrefCanBeBooleanButItsWeird()
+        public void VerifyHrefCannotBeBoolean()
         {
             const string json = "{\"href\":true}";
-            var link = JsonConvert.DeserializeObject<HalLink>(json);
-            link.Href.ToString().ShouldBe("True");
+            Assert.Throws<JsonSerializationException>(() => Deserialize<HalLink>(json));
+        }
+
+        private static T Deserialize<T>(string json) where T : HalLinkObject
+        {
+            return JsonConvert.DeserializeObject<T>(json, new HalLinkJsonConverter());
         }
     }
 }
