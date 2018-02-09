@@ -43,6 +43,7 @@
     <Compile Include="EmbeddedTurtle.cs" />
     <Compile Include="HalLinkDeserializationTests.cs" />
     <Compile Include="HalLinksDeserializationTests.cs" />
+    <Compile Include="HalLinkSerializationTests.cs" />
     <Compile Include="HalResourceDeserializationTests.cs" />
     <Compile Include="HalResourceSerializationTests.cs" />
     <Compile Include="HalTemplatedLinkSerializationTests.cs" />

@@ -9,10 +9,13 @@
             Status = status;
         }
 
+        [HalProperty("total")]
         public decimal Total { get; }
 
+        [HalProperty("currency")]
         public string Currency { get; }
 
+        [HalProperty("status")]
         public string Status { get; }
     }
 }

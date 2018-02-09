@@ -7,31 +7,23 @@ using Newtonsoft.Json.Linq;
 
 namespace Halite.Serialization.JsonNet
 {
-    public class HalLinkJsonConverter : JsonConverter
+    public class HalEmbeddedJsonConverter : JsonConverter
     {
-        private static JProperty CreateProperty(string name, object value)
-        {
-            return value == null ? null : new JProperty(name, JToken.FromObject(value));
-        }
-
         public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
         {
-            var link = (HalLinkObject) value;
+            var objectType = value.GetType();
+            var jo = new JObject();
 
-            var maybeProperties = new object[]
+            var properties = objectType.GetInheritanceChain().Reverse().SelectMany(it => it.GetImmediateProperties()).ToList();
+            foreach (var prop in properties.Where(p => p.CanRead))
             {
-                CreateProperty("name", link.Name),
-                CreateProperty("href", link.Href),
-                CreateProperty("templated", link.Templated),
-                CreateProperty("type", link.Type),
-                CreateProperty("deprecation", link.Deprecation),
-                CreateProperty("profile", link.Profile),
-                CreateProperty("title", link.Title),
-                CreateProperty("hreflang", link.HrefLang)
-            };
+                var propVal = prop.GetValue(value, null);
+                if (propVal != null)
+                {
+                    jo.Add(prop.GetRelationName(), JToken.FromObject(propVal, serializer));
+                }
+            }
 
-            var properties = maybeProperties.Where(it => it != null).ToArray();
-            var jo = new JObject(properties);
             jo.WriteTo(writer);
         }
 
@@ -47,9 +39,9 @@ namespace Halite.Serialization.JsonNet
                     throw CreateConstructorException(objectType);
                 }
 
-                var instance = CreateInstance(objectType, ctor, jo);
+                var instance = CreateInstance(objectType, ctor, jo, serializer);
 
-                AssignValues(objectType, instance, jo);
+                AssignValues(objectType, instance, jo, serializer);
 
                 return instance;
             }
@@ -62,36 +54,32 @@ namespace Halite.Serialization.JsonNet
             return new JsonSerializationException($"Unable to find a constructor to use for type {objectType}. A class should either have a default constructor, one constructor with arguments or a constructor marked with the JsonConstructor attribute.");
         }
 
-        private static void AssignValues(Type objectType, HalLinkObject instance, JObject jo)
+        private static void AssignValues(Type objectType, object instance, JObject jo, JsonSerializer serializer)
         {
             var properties = objectType.GetProperties().Where(p => p.SetMethod != null && p.GetMethod != null).ToList();
 
             foreach (var prop in properties)
             {
                 var jop = jo.Properties().FirstOrDefault(it =>
-                    string.Equals(it.Name, prop.Name, StringComparison.InvariantCultureIgnoreCase));
+                    string.Equals(it.Name, prop.GetPropertyName(), StringComparison.InvariantCultureIgnoreCase));
                 if (jop != null)
                 {
                     var currentValue = prop.GetMethod.Invoke(instance, new object[0]);
                     if (currentValue == null)
                     {
-                        var jvalue = (JValue)jop.Value;
-                        var objValue = jvalue.Value;
-                        var value = typeof(Uri) == prop.PropertyType
-                            ? new Uri((string)objValue, UriKind.RelativeOrAbsolute)
-                            : objValue;
+                        var value = jop.Value.ToObject(prop.PropertyType, serializer);
                         prop.SetMethod.Invoke(instance, new[] { value });
                     }
                 }
             }
         }
 
-        private static HalLinkObject CreateInstance(Type objectType, ConstructorInfo ctor, JObject item)
+        private static object CreateInstance(Type objectType, ConstructorInfo ctor, JObject item, JsonSerializer serializer)
         {
-            var args = ctor.GetParameters().Select(p => LookupArgument(objectType, p, item)).ToArray();
+            var args = ctor.GetParameters().Select(p => LookupArgument(objectType, p, item, serializer)).ToArray();
             try
             {
-                return (HalLinkObject) ctor.Invoke(args);
+                return ctor.Invoke(args);
             }
             catch (TargetInvocationException ex)
             {
@@ -104,50 +92,32 @@ namespace Halite.Serialization.JsonNet
             }
         }
 
-        private static object LookupArgument(Type objectType, ParameterInfo parameter, JObject item)
+        private static object LookupArgument(Type objectType, ParameterInfo parameter, JObject item, JsonSerializer serializer)
         {
-            var property = item.Properties().FirstOrDefault(prop => string.Equals(parameter.Name, prop.Name, StringComparison.InvariantCultureIgnoreCase));
-            if (property == null)
+            var prop = FindCorrespondingProperty(objectType, parameter.Name);
+            if (prop == null)
             {
                 throw CreateConstructorException(objectType);
             }
 
-            var jval = (JValue) property.Value;
-            var val = jval?.Value;
-            if (val != null)
+            var jprop = item.Properties().FirstOrDefault(it => string.Equals(prop.GetRelationName(), it.Name, StringComparison.InvariantCultureIgnoreCase));
+            if (jprop == null)
             {
-                if (!parameter.ParameterType.IsInstanceOfType(val))
-                {
-                    throw CreateConstructorException(objectType);
-                }
+                throw CreateConstructorException(objectType);
             }
 
+            var val = jprop.Value.ToObject(parameter.ParameterType, serializer);
             return val;
         }
 
+        private static PropertyInfo FindCorrespondingProperty(Type objectType, string parameterName)
+        {
+            return objectType.GetProperties().FirstOrDefault(it =>
+                string.Equals(it.Name, parameterName, StringComparison.InvariantCultureIgnoreCase));
+        }
+
+
         private static ConstructorInfo SelectConstructor(Type objectType)
-        {
-            return SelectHalLinkConstructor(objectType) ??
-                   SelectSubclassConstructor(objectType);
-        }
-
-        private static ConstructorInfo SelectHalLinkConstructor(Type objectType)
-        {
-            if (objectType == typeof(HalLink) || objectType == typeof(HalTemplatedLink))
-            {
-                return objectType.GetConstructors().Single(AcceptsSingleStringParameter);
-            }
-
-            return null;
-        }
-
-        private static bool AcceptsSingleStringParameter(ConstructorInfo ctor)
-        {
-            var parameters = ctor.GetParameters();
-            return parameters.Length == 1 && parameters[0].ParameterType == typeof(string);
-        }
-
-        private static ConstructorInfo SelectSubclassConstructor(Type objectType)
         {
             var constructors = objectType.GetConstructors();
 
@@ -173,7 +143,7 @@ namespace Halite.Serialization.JsonNet
 
         public override bool CanConvert(Type objectType)
         {
-            var result = typeof(HalLinkObject).IsAssignableFrom(objectType);
+            var result = typeof(HalEmbedded).IsAssignableFrom(objectType);
             return result;
         }
     }

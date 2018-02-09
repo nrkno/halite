@@ -45,6 +45,7 @@
     <Compile Include="HalLinkObject.cs" />
     <Compile Include="HalLinks.cs" />
     <Compile Include="HalPropertyAttribute.cs" />
+    <Compile Include="HalRelationAttribute.cs" />
     <Compile Include="HalResource.cs" />
     <Compile Include="HalTemplatedLink.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -1,4 +1,7 @@
+using System.Collections.Generic;
+using Halite.Serialization.JsonNet;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 using Shouldly;
 using Xunit;
 
@@ -11,11 +14,18 @@ namespace Halite.Tests
         {
             var resource = new DummyResourceWithLinks
             {
-                Links = new DummyLinks(new SelfLink("/lambda"), new ThisLink(), new ThatLink())
+                Links = new DummyLinks(new SelfLink("/lambda"),
+                    new ThisLink(), 
+                    new ThatLink(), 
+                    new List<HalLink>
+                    {
+                        new HalLink("/quux"),
+                        new HalLink("/xuuq")
+                    })
             };
 
-            var json = JsonConvert.SerializeObject(resource);
-            json.ShouldBe("{\"_links\":{\"this\":{\"href\":\"/this\"},\"that\":{\"href\":\"/that\"},\"self\":{\"href\":\"/lambda\"}}}");
+            var json = Serialize(resource);
+            json.ShouldBe("{\"_links\":{\"self\":{\"href\":\"/lambda\"},\"this\":{\"href\":\"/this\"},\"that\":{\"href\":\"/that\"},\"those\":[{\"href\":\"/quux\"},{\"href\":\"/xuuq\"}]}}");
         }
 
         [Fact]
@@ -23,12 +33,19 @@ namespace Halite.Tests
         {
             var resource = new DummyResourceWithLinksAndEmbedded
             {
-                Links = new DummyLinks(new SelfLink("/lambda"), new ThisLink(), new ThatLink()),
+                Links = new DummyLinks(new SelfLink("/lambda"), 
+                new ThisLink(), 
+                new ThatLink(),
+                new List<HalLink>
+                {
+                    new HalLink("/quux"),
+                    new HalLink("/xuuq")
+                }),
                 Embedded = new DummyEmbedded()
             };
 
-            var json = JsonConvert.SerializeObject(resource);
-            json.ShouldBe("{\"_links\":{\"this\":{\"href\":\"/this\"},\"that\":{\"href\":\"/that\"},\"self\":{\"href\":\"/lambda\"}},\"_embedded\":{}}");
+            var json = Serialize(resource);
+            json.ShouldBe("{\"_links\":{\"self\":{\"href\":\"/lambda\"},\"this\":{\"href\":\"/this\"},\"that\":{\"href\":\"/that\"},\"those\":[{\"href\":\"/quux\"},{\"href\":\"/xuuq\"}]},\"_embedded\":{}}");
         }
 
         [Fact]
@@ -50,10 +67,26 @@ namespace Halite.Tests
                 }
             };
 
-            var json = JsonConvert.SerializeObject(turtle);
+            var json = Serialize(turtle);
             var expectedJson =
-                "{\"_links\":{\"self\":{\"href\":\"/turtle2\"}},\"_embedded\":{\"Down\":{\"_links\":{\"self\":{\"href\":\"/turtle1\"}},\"_embedded\":{\"Down\":{\"_links\":{\"self\":{\"href\":\"/turtle0\"}}}}}}}";
+                "{\"_links\":{\"self\":{\"href\":\"/turtle2\"}},\"_embedded\":{\"down\":{\"_links\":{\"self\":{\"href\":\"/turtle1\"}},\"_embedded\":{\"down\":{\"_links\":{\"self\":{\"href\":\"/turtle0\"}}}}}}}";
             json.ShouldBe(expectedJson);
         }
+
+        private static string Serialize(object obj)
+        {
+            var settings = new JsonSerializerSettings
+            {
+                ContractResolver = new CamelCasePropertyNamesContractResolver(),
+                Converters = new List<JsonConverter>()
+                {
+                    new HalLinkJsonConverter(),
+                    new HalLinksJsonConverter(),
+                    new HalResourceJsonConverter()
+                }
+            };
+            return JsonConvert.SerializeObject(obj, settings);
+        }
+
     }
 }

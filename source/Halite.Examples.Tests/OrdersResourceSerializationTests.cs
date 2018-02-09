@@ -1,7 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
-using System.Reflection;
+using Halite.Serialization.JsonNet;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using Shouldly;
@@ -9,25 +8,14 @@ using Xunit;
 
 namespace Halite.Examples.Tests
 {
-    public class OrdersResourceTests
+    public class OrdersResourceSerializationTests
     {
-        private static string ReadJsonFile(string fileName)
-        {
-            var assembly = Assembly.GetExecutingAssembly();
-            var codeBaseUrl = new Uri(assembly.CodeBase);
-            var codeBasePath = Uri.UnescapeDataString(codeBaseUrl.AbsolutePath);
-            var dirPath = Path.GetDirectoryName(codeBasePath);
-            var testDirPath = Path.Combine(dirPath, "TestFiles");
-            var jsonFilePath = Path.Combine(testDirPath, fileName);
-            return string.Join("\n", File.ReadAllLines(jsonFilePath));
-        } 
-
         [Fact]
-        public void VerifyOrdersResource()
+        public void VerifyOrdersResourceSerialization()
         {
             var resource = CreateOrdersResource();
             var json = Serialize(resource);
-            json.ShouldBe(ReadJsonFile("OrdersResource.json"));
+            json.ShouldBe(JsonTestFile.Read("OrdersResource.json"));
         }
 
         private static string Serialize(object o)
@@ -36,6 +24,13 @@ namespace Halite.Examples.Tests
             {
                 ContractResolver = new CamelCasePropertyNamesContractResolver(),
                 Formatting = Formatting.Indented,
+                Converters =
+                {
+                    new HalLinkJsonConverter(),
+                    new HalLinksJsonConverter(),
+                    new HalEmbeddedJsonConverter(),
+                    new HalResourceJsonConverter()
+                }
             };
 
             using (var sw = new StringWriter { NewLine = "\n" })

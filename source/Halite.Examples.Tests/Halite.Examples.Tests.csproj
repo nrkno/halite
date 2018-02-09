@@ -40,11 +40,22 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="OrdersResourceTests.cs" />
+    <Compile Include="JsonTestFile.cs" />
+    <Compile Include="OrderLineLinksDeserializationTests.cs" />
+    <Compile Include="OrderLineLinksSerializationTests.cs" />
+    <Compile Include="OrderLineResourceDeserializationTests.cs" />
+    <Compile Include="OrderLineResourceSerializationTests.cs" />
+    <Compile Include="OrdersEmbeddedDeserializationTests.cs" />
+    <Compile Include="OrdersEmbeddedSerializationTests.cs" />
+    <Compile Include="OrdersResourceDeserializationTests.cs" />
+    <Compile Include="OrdersResourceSerializationTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="paket.references" />
+    <None Include="TestFiles\OrdersEmbedded.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="TestFiles\OrdersResource.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
@@ -54,10 +65,17 @@
       <Project>{7024ae7a-7c53-43fd-9480-e24bf7b7e884}</Project>
       <Name>Halite.Examples</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Halite.Serialization.JsonNet\Halite.Serialization.JsonNet.csproj">
+      <Project>{4631E21F-0ABA-42E4-A478-379B0656C969}</Project>
+      <Name>Halite.Serialization.JsonNet</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Halite\Halite.csproj">
       <Project>{670c2953-95c3-493c-a39c-987105130378}</Project>
       <Name>Halite</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Choose>

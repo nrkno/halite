@@ -1,19 +1,23 @@
-using Newtonsoft.Json;
+using System.Collections.Generic;
 
 namespace Halite.Tests
 {
     internal class DummyLinks : HalLinks
     {
-        public DummyLinks(SelfLink self, ThisLink @this, ThatLink that) : base(self)
+        public DummyLinks(SelfLink self, ThisLink @this, ThatLink that, IReadOnlyList<HalLink> those) : base(self)
         {
             This = @this;
             That = that;
+            Those = those;
         }
 
-        [JsonProperty("this")]
+        [HalRelation("this")]
         public ThisLink This { get; }
 
-        [JsonProperty("that")]
+        [HalRelation("that")]
         public ThatLink That { get; }
+
+        [HalRelation("those")]
+        public IReadOnlyList<HalLink> Those { get; }
     }
 }

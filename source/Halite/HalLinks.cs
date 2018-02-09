@@ -18,7 +18,7 @@ namespace Halite
         /// <summary>
         /// Mandatory 'self' link for all resources.
         /// </summary>
-        [HalProperty("self")]
+        [HalRelation("self")]
         [NotNull]
         public SelfLink Self { get; }
     }
