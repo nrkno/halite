@@ -75,18 +75,7 @@ namespace Halite.Tests
 
         private static string Serialize(object obj)
         {
-            var settings = new JsonSerializerSettings
-            {
-                ContractResolver = new CamelCasePropertyNamesContractResolver(),
-                Converters = new List<JsonConverter>()
-                {
-                    new HalLinkJsonConverter(),
-                    new HalLinksJsonConverter(),
-                    new HalResourceJsonConverter()
-                }
-            };
-            return JsonConvert.SerializeObject(obj, settings);
+            return JsonConvert.SerializeObject(obj, new JsonSerializerSettings().ConfigureForHalite());
         }
-
     }
 }
