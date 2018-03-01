@@ -61,6 +61,7 @@ Target "CreatePaketTemplate" (fun _ ->
           TemplateType = File
           Description = ["Implementation of the HAL specification."]
           Id = Some projectName
+          ProjectUrl = Some "https://github.com/nrkno/halite"
           Version = Some version
           Authors = ["NRK"]
           Files = [ Include (buildDir + "/Halite.dll", "lib/net45")
