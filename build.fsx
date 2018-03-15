@@ -6,12 +6,13 @@ open Fake.Git
 open Fake.MSBuildHelper
 open Fake.Testing.XUnit2
 open Fake.PaketTemplate
+open Fake.DotNetCli
 
 let buildDir = "./build/"
 let testProjects = "./source/*Tests/*.csproj"
 let testOutputDir = "./tests/"
-let projectReferences = !! "./source/Halite/Halite.csproj"
-                        ++ "./source/Halite.Examples/Halite.Examples.csproj" 
+let haliteProjectReferences = "./source/Halite/Halite.csproj"
+let examplesProjectReferences = !! "./source/Halite.Examples/Halite.Examples.csproj" 
 let analyzerProjectReferences = !! "./source/analyzer/Halite.Analyzer/Halite.Analyzer.csproj"
 let testProjectReferences = !! "./source/Halite.Tests/Halite.Tests.csproj"
                             ++ "./source/Halite.Examples.Tests/Halite.Examples.Tests.csproj"
@@ -41,7 +42,36 @@ Target "AddAssemblyVersion" (fun _ ->
             AssemblyVersion = version })  
 )
 
-Target "Build" (fun _ -> MSBuild buildDir "Build" buildReleaseProperties projectReferences |> Log "Building project: ")
+Target "Build45" (fun _ -> 
+    DotNetCli.Build (fun p -> 
+        { p with
+            Output = "../../" + buildDir
+            Configuration = "Release"
+            // AdditionalArgs = ["DocumentationFile"; "Halite.xml"]
+            Framework = "net45"
+            Project = haliteProjectReferences }))
+
+Target "Build461" (fun _ -> 
+    DotNetCli.Build (fun p -> 
+        { p with
+            Output = "../../" + buildDir + "net461/"
+            Configuration = "Release"
+            // AdditionalArgs = ["DocumentationFile"; "Halite.xml"]
+            Framework = "net461"
+            Project = haliteProjectReferences }) 
+)
+
+Target "BuildNetStandard20" (fun _ -> 
+    DotNetCli.Build (fun p -> 
+        { p with
+            Output = "../../" + buildDir + "netstandard2.0/"
+            Configuration = "Release"
+            // AdditionalArgs = ["DocumentationFile"; "Halite.xml"]
+            Framework = "netstandard2.0"
+            Project = haliteProjectReferences }) 
+)
+
+Target "BuildExamples" (fun _ -> MSBuild buildDir "Build" buildReleaseProperties examplesProjectReferences |> Log "Building examples project: " )
 
 Target "BuildAnalyzer" (fun _ -> MSBuild buildDir "Build" buildReleaseProperties analyzerProjectReferences |> Log "Building analyzer project: ")
 
@@ -64,10 +94,19 @@ Target "CreatePaketTemplate" (fun _ ->
           ProjectUrl = Some "https://github.com/nrkno/halite"
           Version = Some version
           Authors = ["NRK"]
-          Files = [ Include (buildDir + "/Halite.dll", "lib/net45")
-                    Include (buildDir + "/Halite.pdb", "lib/net45")
-                    Include (buildDir + "/Halite.xml", "lib/net45")
-                    Include (buildDir + "/Halite.Analyzer.dll", "analyzers/dotnet/cs") ]
+          Files = [ Include (buildDir + "Halite.dll", "lib/net45")
+                    Include (buildDir + "Halite.pdb", "lib/net45")
+                    Include ("./Halite.xml", "lib/net45")
+
+                    Include (buildDir + "net461/Halite.dll", "lib/net461")
+                    Include (buildDir + "net461/Halite.pdb", "lib/net461")
+                    Include ("./Halite.xml", "lib/net461")
+
+                    Include (buildDir + "netstandard2.0/Halite.dll", "lib/netstandard2.0")
+                    Include (buildDir + "netstandard2.0/Halite.pdb", "lib/netstandard2.0")
+                    Include (buildDir + "netstandard2.0/Halite.deps.json", "lib/netstandard2.0")
+                    Include ("./Halite.xml", "lib/netstandard2.0")
+                    Include (buildDir + "Halite.Analyzer.dll", "analyzers/dotnet/cs") ]
           Dependencies = 
             [ "Newtonsoft.Json", GreaterOrEqual (Version "6.0.8") 
               "JetBrains.Annotations", GreaterOrEqual (Version "11.1.0") ]
@@ -99,7 +138,10 @@ Target "PushPackage" (fun _ ->
 
 "Clean"
 ==> "AddAssemblyVersion"
-==> "Build"
+==> "Build45"
+==> "Build461"
+==> "BuildNetStandard20"
+==> "BuildExamples"
 ==> "BuildAnalyzer"
 ==> "BuildTests"
 ==> "RunTests"
