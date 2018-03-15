@@ -96,16 +96,16 @@ Target "CreatePaketTemplate" (fun _ ->
           Authors = ["NRK"]
           Files = [ Include (buildDir + "Halite.dll", "lib/net45")
                     Include (buildDir + "Halite.pdb", "lib/net45")
-                    Include ("./Halite.xml", "lib/net45")
+                    Include ("./source/Halite/Halite.xml", "lib/net45")
 
                     Include (buildDir + "net461/Halite.dll", "lib/net461")
                     Include (buildDir + "net461/Halite.pdb", "lib/net461")
-                    Include ("./Halite.xml", "lib/net461")
+                    Include ("./source/Halite/Halite.xml", "lib/net461")
 
                     Include (buildDir + "netstandard2.0/Halite.dll", "lib/netstandard2.0")
                     Include (buildDir + "netstandard2.0/Halite.pdb", "lib/netstandard2.0")
                     Include (buildDir + "netstandard2.0/Halite.deps.json", "lib/netstandard2.0")
-                    Include ("./Halite.xml", "lib/netstandard2.0")
+                    Include ("./source/Halite/Halite.xml", "lib/netstandard2.0")
                     Include (buildDir + "Halite.Analyzer.dll", "analyzers/dotnet/cs") ]
           Dependencies = 
             [ "Newtonsoft.Json", GreaterOrEqual (Version "6.0.8") 
