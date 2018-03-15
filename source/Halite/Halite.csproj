@@ -2,11 +2,9 @@
 
   <PropertyGroup>
     <TargetFrameworks>net461;net45;netstandard2.0</TargetFrameworks>
+    <DocumentationFile>Halite.xml</DocumentationFile>
   </PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net461|AnyCPU'">
-    <DocumentationFile>..\..\Halite.xml</DocumentationFile>
-  </PropertyGroup>
 
   <Import Project="..\..\.paket\Paket.Restore.targets" />
 </Project>
