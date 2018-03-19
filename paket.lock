@@ -1,7 +1,8 @@
 NUGET
   remote: https://api.nuget.org/v3/index.json
     FAKE (4.64.4)
-    JetBrains.Annotations (11.1) - restriction: >= net45
+    JetBrains.Annotations (11.1) - restriction: || (== net45) (== net461) (== netstandard2.0)
+      System.Runtime (>= 4.1) - restriction: && (< net10) (>= netstandard1.0)
     Microsoft.CodeAnalysis.Analyzers (1.1) - restriction: >= portable-net45+win8
     Microsoft.CodeAnalysis.Common (1.0.1) - restriction: >= portable-net45+win8
       Microsoft.CodeAnalysis.Analyzers (>= 1.0)
@@ -16,11 +17,16 @@ NUGET
       Microsoft.CodeAnalysis.Common (>= 1.0.1)
       Microsoft.Composition (>= 1.0.27)
     Microsoft.Composition (1.0.27) - restriction: >= portable-net45+win8
+    Microsoft.NETCore.Platforms (2.0.1) - restriction: || (&& (== net45) (>= dnxcore50)) (&& (== net45) (< net10)) (&& (== net461) (>= dnxcore50)) (&& (== net461) (< net10)) (== netstandard2.0)
+    Microsoft.NETCore.Targets (2.0) - restriction: || (&& (== net45) (>= dnxcore50)) (&& (== net45) (< net10)) (&& (== net461) (>= dnxcore50)) (&& (== net461) (< net10)) (== netstandard2.0)
     Newtonsoft.Json (6.0.8) - restriction: >= net45
     Shouldly (2.8.3) - restriction: >= net45
     System.Collections.Immutable (1.1.36) - restriction: >= portable-net45+win8
     System.Reflection.Metadata (1.0.21) - restriction: >= portable-net45+win8
       System.Collections.Immutable (>= 1.1.36)
+    System.Runtime (4.3) - restriction: || (&& (== net45) (< net10)) (&& (== net461) (< net10)) (== netstandard2.0)
+      Microsoft.NETCore.Platforms (>= 1.1) - restriction: || (>= dnxcore50) (&& (< monoandroid) (< monotouch) (< net45) (>= netstandard1.5) (< win8) (< wpa81) (< xamarinios) (< xamarinmac) (< xamarintvos) (< xamarinwatchos)) (&& (< monoandroid) (< net45) (>= netstandard1.0) (< netstandard1.2) (< win8) (< wp8)) (&& (< monoandroid) (< net45) (>= netstandard1.2) (< netstandard1.3) (< win8) (< wpa81)) (&& (< monoandroid) (< net45) (>= netstandard1.3) (< netstandard1.5) (< win8) (< wpa81))
+      Microsoft.NETCore.Targets (>= 1.1) - restriction: || (>= dnxcore50) (&& (< monoandroid) (< monotouch) (< net45) (>= netstandard1.5) (< win8) (< wpa81) (< xamarinios) (< xamarinmac) (< xamarintvos) (< xamarinwatchos)) (&& (< monoandroid) (< net45) (>= netstandard1.0) (< netstandard1.2) (< win8) (< wp8)) (&& (< monoandroid) (< net45) (>= netstandard1.2) (< netstandard1.3) (< win8) (< wpa81)) (&& (< monoandroid) (< net45) (>= netstandard1.3) (< netstandard1.5) (< win8) (< wpa81))
     xunit (2.1) - restriction: >= net45
       xunit.assert (2.1)
       xunit.core (2.1)
