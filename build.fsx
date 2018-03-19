@@ -108,8 +108,7 @@ Target "CreatePaketTemplate" (fun _ ->
                     Include ("./source/Halite/Halite.xml", "lib/netstandard2.0")
                     Include (buildDir + "Halite.Analyzer.dll", "analyzers/dotnet/cs") ]
           Dependencies = 
-            [ "Newtonsoft.Json", GreaterOrEqual (Version "11.0.1") 
-              "JetBrains.Annotations", GreaterOrEqual (Version "11.1.0") ]
+            [ "JetBrains.Annotations", GreaterOrEqual (Version "11.1.0") ]
     } )
 )
 
