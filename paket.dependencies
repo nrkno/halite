@@ -1,7 +1,7 @@
 source https://api.nuget.org/v3/index.json
 
 nuget Newtonsoft.Json 6.0.8 restriction: >= net45
-nuget JetBrains.Annotations 11.1.0 framework: net45, net461, netstandard2.0
+nuget JetBrains.Annotations 11.1.0 framework: netstandard1.0, net45, net461
 nuget Shouldly 2.8.3 restriction: >= net45
 nuget xunit 2.1.0 restriction: >= net45 
 nuget xunit.runner.console 2.1.0 restriction: >= net45

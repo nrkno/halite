@@ -1,11 +1,4 @@
-Microsoft.CodeAnalysis.Analyzers
-Microsoft.CodeAnalysis.Common 
-Microsoft.CodeAnalysis.CSharp 
 Microsoft.CodeAnalysis.CSharp.Workspaces
-Microsoft.CodeAnalysis.Workspaces.Common 
-Microsoft.Composition  
-System.Collections.Immutable
-System.Reflection.Metadata
 xunit
 xunit.runner.visualstudio
 Shouldly
