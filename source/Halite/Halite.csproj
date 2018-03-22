@@ -5,6 +5,11 @@
     <DocumentationFile>Halite.xml</DocumentationFile>
   </PropertyGroup>
 
+  <PropertyGroup>
+    <Authors>NRK</Authors>
+    <Description>Implementation of the HAL specification.</Description>
+    <PackageProjectUrl>https://github.com/nrkno/halite</PackageProjectUrl>
+  </PropertyGroup>
 
   <Import Project="..\..\.paket\Paket.Restore.targets" />
 </Project>
