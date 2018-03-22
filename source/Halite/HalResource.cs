@@ -2,7 +2,7 @@
 
 namespace Halite
 {
-    [Serializable]
+    
     public class HalResource<TLinks>
         where TLinks : HalLinks
     {
@@ -10,7 +10,7 @@ namespace Halite
         public TLinks Links { get; set; }
     }
 
-    [Serializable]
+    
     public class HalResource<TLinks, TEmbedded> : HalResource<TLinks>
         where TLinks : HalLinks
         where TEmbedded : HalEmbedded

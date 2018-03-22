@@ -6,7 +6,7 @@ namespace Halite
     /// <summary>
     /// Represents a HAL link whose Href value is a URI [RFC3986]
     /// </summary>
-    [Serializable]
+    
     public class HalLink : HalLinkObject
     {
         public HalLink([CanBeNull] string href)

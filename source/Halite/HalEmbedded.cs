@@ -11,7 +11,6 @@ namespace Halite
     /// This means property types must be either a HalResource subclass or
     /// (something that implements) IEnumerable of a HalResource subclass 
     /// </summary>
-    [Serializable]
     public abstract class HalEmbedded
     {
     }
