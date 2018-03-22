@@ -9,7 +9,7 @@ namespace Halite
     /// <remarks>
     /// Clients should never subclass this class, use HalLink or HalTemplatedLink instead.
     /// </remarks>
-    [Serializable]
+    
     public abstract class HalLinkObject
     {
         protected HalLinkObject([CanBeNull] Uri href)

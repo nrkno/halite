@@ -1,10 +1,15 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>net461;net45;netstandard2.0</TargetFrameworks>
+    <TargetFramework>netstandard1.0</TargetFramework>
     <DocumentationFile>Halite.xml</DocumentationFile>
   </PropertyGroup>
 
+  <PropertyGroup>
+    <Authors>NRK</Authors>
+    <Description>Implementation of the HAL specification.</Description>
+    <PackageProjectUrl>https://github.com/nrkno/halite</PackageProjectUrl>
+  </PropertyGroup>
 
   <Import Project="..\..\.paket\Paket.Restore.targets" />
 </Project>
