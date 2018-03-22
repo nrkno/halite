@@ -12,7 +12,7 @@ let buildDir = "./build/"
 let testProjects = "./source/*Tests/*.csproj"
 let testOutputDir = "./tests/"
 let haliteProjectReferences = "./source/Halite/Halite.csproj"
-let examplesProjectReferences = !! "./source/Halite.Examples/Halite.Examples.csproj" 
+let examplesProjectReferences = "./source/Halite.Examples/Halite.Examples.csproj" 
 let analyzerProjectReferences = !! "./source/analyzer/Halite.Analyzer/Halite.Analyzer.csproj"
 let testProjectReferences = !! "./source/Halite.Tests/Halite.Tests.csproj"
                             ++ "./source/Halite.Examples.Tests/Halite.Examples.Tests.csproj"
@@ -47,11 +47,16 @@ Target "Build" (fun _ ->
         { p with
             Output = "../../" + buildDir
             Configuration = "Release"
-            // AdditionalArgs = ["DocumentationFile"; "Halite.xml"]
             Project = haliteProjectReferences }) 
 )
 
-Target "BuildExamples" (fun _ -> MSBuild buildDir "Build" buildReleaseProperties examplesProjectReferences |> Log "Building examples project: " )
+Target "BuildExamples" (fun _ ->
+    DotNetCli.Build (fun p ->
+    { p with 
+        Output = "../../" + buildDir
+        Configuration = "Release"
+        Project = examplesProjectReferences })
+)
 
 Target "BuildAnalyzer" (fun _ -> MSBuild buildDir "Build" buildReleaseProperties analyzerProjectReferences |> Log "Building analyzer project: ")
 
