@@ -9,6 +9,7 @@ open Fake.PaketTemplate
 open Fake.DotNetCli
 
 let buildDir = "./build/"
+let sourceDir = "./source/"
 let testProjects = "./source/*Tests/*.csproj"
 let testOutputDir = "./tests/"
 let haliteProjectReferences = "./source/Halite/Halite.csproj"
@@ -82,6 +83,39 @@ Target "CreateNugetPackage" (fun _ ->
     )
 )
 
+Target "CreatePaketTemplate" (fun _ ->
+  PaketTemplate (fun p ->
+    let targetLib = "lib/netstandard1.0"
+    {
+        p with
+          TemplateFilePath = Some templateFilePath
+          TemplateType = File
+          Description = ["Implementation of the HAL specification."]
+          Id = Some projectName
+          ProjectUrl = Some "https://github.com/nrkno/halite"
+          Version = Some version
+          Authors = ["NRK"]
+          Files = [ Include (buildDir @@ "Halite.dll", targetLib)
+                    Include (buildDir @@ "Halite.pdb", targetLib)
+                    Include (buildDir @@ "Halite.xml", targetLib)
+                    Include (buildDir @@ "Halite.Analyzer.dll", "analyzers/dotnet/cs") ]
+          Dependencies = 
+            [ "JetBrains.Annotations", GreaterOrEqual (Version "11.1.0") ]
+    } )
+)
+
+Target "CreatePackage" (fun _ ->
+    Paket.Pack (fun p ->
+      {
+          p with
+              Version = version
+              ReleaseNotes = "fake release"
+              OutputPath = buildDir
+              TemplateFile = templateFilePath
+              BuildConfig = "Release"
+              ToolPath = toolPathPaket })
+)
+
 Target "PushPackage" (fun _ ->
   Paket.Push (fun p -> 
       {
@@ -100,7 +134,8 @@ Target "PushPackage" (fun _ ->
 ==> "BuildAnalyzer"
 ==> "BuildTests"
 ==> "RunTests"
-==> "CreateNugetPackage"
+==> "CreatePaketTemplate"
+==> "CreatePackage"
 ==> "PushPackage"
 
-RunTargetOrDefault "CreateNugetPackage"
+RunTargetOrDefault "CreatePackage"
