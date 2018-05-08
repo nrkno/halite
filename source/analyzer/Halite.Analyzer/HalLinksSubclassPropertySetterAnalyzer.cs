@@ -38,7 +38,6 @@ namespace Halite
         private static void AnalyzePropertyDeclarationNoSetter(SyntaxNodeAnalysisContext context)
         {
             var declarationNode = (PropertyDeclarationSyntax)context.Node;
-            var parent = (ClassDeclarationSyntax)declarationNode.Parent;
             var propertySymbol = context.SemanticModel.GetDeclaredSymbol(declarationNode);
             if (propertySymbol.ContainingType.IsHalLinks())
             {
@@ -46,6 +45,7 @@ namespace Halite
                 var accessorList = declarationNode.AccessorList;
                 if (accessorList.Accessors.Any(a => a.Keyword.Kind() == SyntaxKind.SetKeyword))
                 {
+                    var parent = (TypeDeclarationSyntax)declarationNode.Parent;
                     var setter = accessorList.Accessors.Single(a => a.Keyword.Kind() == SyntaxKind.SetKeyword);
                     if (setter.Modifiers.Any())
                     {
