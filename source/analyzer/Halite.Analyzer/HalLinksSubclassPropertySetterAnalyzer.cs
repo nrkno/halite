@@ -41,7 +41,6 @@ namespace Halite
             var propertySymbol = context.SemanticModel.GetDeclaredSymbol(declarationNode);
             if (propertySymbol.ContainingType.IsHalLinks())
             {
-
                 var accessorList = declarationNode.AccessorList;
                 if (accessorList.Accessors.Any(a => a.Keyword.Kind() == SyntaxKind.SetKeyword))
                 {
@@ -49,20 +48,19 @@ namespace Halite
                     var setter = accessorList.Accessors.Single(a => a.Keyword.Kind() == SyntaxKind.SetKeyword);
                     if (setter.Modifiers.Any())
                     {
-                        if (!setter.Modifiers.All(m => m.Kind() == SyntaxKind.PrivateKeyword))
+                        if (setter.Modifiers.Any(m => m.Kind() != SyntaxKind.PrivateKeyword))
                         {
-                            var diagnostic = Diagnostic.Create(HalLinksPropertyNoSetterRule, setter.GetLocation(), new object[] { declarationNode.Identifier.Value, parent.Identifier.Value });
+                            var diagnostic = Diagnostic.Create(HalLinksPropertyNoSetterRule, setter.GetLocation(), declarationNode.Identifier.Value, parent.Identifier.Value);
                             context.ReportDiagnostic(diagnostic);
                         }
                     }
                     else
                     {
-                        var diagnostic = Diagnostic.Create(HalLinksPropertyNoSetterRule, setter.GetLocation(), new object[] { declarationNode.Identifier.Value, parent.Identifier.Value });
+                        var diagnostic = Diagnostic.Create(HalLinksPropertyNoSetterRule, setter.GetLocation(), declarationNode.Identifier.Value, parent.Identifier.Value);
                         context.ReportDiagnostic(diagnostic);
                     }
                 }
             }
         }
-
     }
 }
