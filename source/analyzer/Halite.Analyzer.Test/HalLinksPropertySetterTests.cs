@@ -85,18 +85,7 @@ namespace Halite.Analyzer.Test
             public HalLink SomeLink { get; private set; }
         }
     }";
-            var expected = new DiagnosticResult
-            {
-                Id = "HalLinksPropertyDeclaration",
-                Message = String.Format("Property SomeLink in TypeName, a subclass of HalLinks, must not have externally accessible setter."),
-                Severity = DiagnosticSeverity.Warning,
-                Locations =
-                    new[] {
-                            new DiagnosticResultLocation("Test0.cs", 13, 44)
-                        }
-            };
-
-            VerifyCSharpDiagnostic(test, new DiagnosticResult[0]);
+            VerifyCSharpDiagnostic(test);
         }
 
         [Fact]
