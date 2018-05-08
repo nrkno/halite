@@ -40,7 +40,6 @@ namespace Halite
             var declarationNode = (PropertyDeclarationSyntax)context.Node;
             var parent = (ClassDeclarationSyntax)declarationNode.Parent;
             var propertySymbol = context.SemanticModel.GetDeclaredSymbol(declarationNode);
-            var classSymbol = ((ITypeSymbol)context.SemanticModel.GetDeclaredSymbol(parent));
             if (propertySymbol.ContainingType.IsHalLinks())
             {
 
