@@ -1,12 +1,18 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.29411.108
+# Visual Studio 15
+VisualStudioVersion = 15.0.27130.2036
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".paket", ".paket", "{E6CD43F1-0D49-4558-96BA-9B16C8423B89}"
 	ProjectSection(SolutionItems) = preProject
 		..\paket.dependencies = ..\paket.dependencies
 	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Halite.Analyzer", "analyzer\Halite.Analyzer\Halite.Analyzer.csproj", "{F7E43259-689C-4061-864B-613F347B2E62}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Halite.Analyzer.Tests", "analyzer\Halite.Analyzer.Test\Halite.Analyzer.Tests.csproj", "{8C225525-D690-4BCD-AD2D-4A64C0742ED0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Halite.Analyzer.Vsix", "analyzer\Halite.Analyzer.Vsix\Halite.Analyzer.Vsix.csproj", "{E4EAB85B-37F9-41C0-B560-23E078EEEA9D}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Halite.Examples", "Halite.Examples\Halite.Examples.csproj", "{7024AE7A-7C53-43FD-9480-E24BF7B7E884}"
 EndProject
@@ -18,6 +24,18 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{F7E43259-689C-4061-864B-613F347B2E62}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F7E43259-689C-4061-864B-613F347B2E62}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F7E43259-689C-4061-864B-613F347B2E62}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F7E43259-689C-4061-864B-613F347B2E62}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8C225525-D690-4BCD-AD2D-4A64C0742ED0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8C225525-D690-4BCD-AD2D-4A64C0742ED0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8C225525-D690-4BCD-AD2D-4A64C0742ED0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8C225525-D690-4BCD-AD2D-4A64C0742ED0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E4EAB85B-37F9-41C0-B560-23E078EEEA9D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E4EAB85B-37F9-41C0-B560-23E078EEEA9D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E4EAB85B-37F9-41C0-B560-23E078EEEA9D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E4EAB85B-37F9-41C0-B560-23E078EEEA9D}.Release|Any CPU.Build.0 = Release|Any CPU
 		{7024AE7A-7C53-43FD-9480-E24BF7B7E884}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{7024AE7A-7C53-43FD-9480-E24BF7B7E884}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7024AE7A-7C53-43FD-9480-E24BF7B7E884}.Release|Any CPU.ActiveCfg = Release|Any CPU
