@@ -10,10 +10,14 @@ open Fake.DotNetCli
 
 let buildDir = "./build/"
 let sourceDir = "./source/"
-
+let testProjects = "./source/*Tests/*.csproj"
+let testOutputDir = "./tests/"
 let haliteProjectReferences = "./source/Halite/Halite.csproj"
 let examplesProjectReferences = "./source/Halite.Examples/Halite.Examples.csproj" 
-
+let analyzerProjectReferences = !! "./source/analyzer/Halite.Analyzer/Halite.Analyzer.csproj"
+let testProjectReferences = !! "./source/Halite.Tests/Halite.Tests.csproj"
+                            ++ "./source/Halite.Examples.Tests/Halite.Examples.Tests.csproj"
+                            ++ "./source/analyzer/Halite.Analyzer.Test/Halite.Analyzer.Tests.csproj"
 let projectName = "Halite"
 let description = "Library for representing HAL objects and links."
 let version = environVarOrDefault "version" "0.0.0"
@@ -23,7 +27,7 @@ let templateFilePath = "./Halite.paket.template"
 let toolPathPaket = ".paket/paket.exe"
 
 Target "Clean" (fun _ ->
-  CleanDirs [buildDir]
+  CleanDirs [buildDir; testOutputDir]
 )
 
 let buildReleaseProperties = 
@@ -55,6 +59,16 @@ Target "BuildExamples" (fun _ ->
         Project = examplesProjectReferences })
 )
 
+Target "BuildAnalyzer" (fun _ -> MSBuild buildDir "Build" buildReleaseProperties analyzerProjectReferences |> Log "Building analyzer project: ")
+
+Target "BuildTests" (fun _ ->  MSBuild testOutputDir "Build" [ "Configuration", "Debug" ] testProjectReferences |> Log "TestBuild-Output: ")
+
+Target "RunTests" (fun _ ->
+  !! (testOutputDir @@ "*Tests.dll")
+  |> xUnit2 (fun p ->
+                 { p with HtmlOutputPath = Some (testOutputDir @@ "xunit.html") })
+)
+
 Target "CreateNugetPackage" (fun _ -> 
     let description = "Implementation of the HAL specification."
     DotNetCli.Pack (fun c -> 
@@ -71,7 +85,7 @@ Target "CreateNugetPackage" (fun _ ->
 
 Target "CreatePaketTemplate" (fun _ ->
   PaketTemplate (fun p ->
-    let targetLib = "lib/netstandard2.0"
+    let targetLib = "lib/netstandard1.0"
     {
         p with
           TemplateFilePath = Some templateFilePath
@@ -84,7 +98,7 @@ Target "CreatePaketTemplate" (fun _ ->
           Files = [ Include (buildDir @@ "Halite.dll", targetLib)
                     Include (buildDir @@ "Halite.pdb", targetLib)
                     Include (buildDir @@ "Halite.xml", targetLib)
-                   ]
+                    Include (buildDir @@ "Halite.Analyzer.dll", "analyzers/dotnet/cs") ]
           Dependencies = 
             [ "JetBrains.Annotations", GreaterOrEqual (Version "11.1.0") ]
     } )
@@ -117,6 +131,9 @@ Target "PushPackage" (fun _ ->
 ==> "AddAssemblyVersion"
 ==> "Build"
 ==> "BuildExamples"
+==> "BuildAnalyzer"
+==> "BuildTests"
+==> "RunTests"
 ==> "CreatePaketTemplate"
 ==> "CreatePackage"
 ==> "PushPackage"
